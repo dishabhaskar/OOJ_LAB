@@ -1,0 +1,72 @@
+import java.util.Scanner;
+
+class wrongage extends Exception 
+{
+   private int detail;
+   wrongage(int a) 
+    {
+       detail = a;
+    }
+
+   public String toString()
+    {
+       return "wrongage[" + detail + "]";
+    }
+}
+
+class father
+{  	
+   int age;
+   father(int a) 
+    {
+       age=a;
+    }
+
+   void checkfage() throws wrongage
+    {
+       if(age<=0)
+       throw new wrongage(age);
+    }
+}
+
+class son extends father 
+{  
+	
+   int ages;
+   son(int a,int b)
+    {
+       super(b);
+       ages=a;
+    }
+
+   void check() throws wrongage
+    {
+       if(ages==0)
+       throw new wrongage(ages);
+       if(age<=ages)
+       throw new wrongage(age);
+       System.out.println("the given ages are correct");
+    }
+}  
+
+
+class agemain1
+{
+	public static void main(String[] args) 
+	{
+		try
+		{   
+                 Scanner sc=new Scanner(System.in);
+                 System.out.println("enter fathers and sons age:");
+		             int a1=sc.nextInt();
+	               int a2=sc.nextInt();
+		             son s=new son(a2,a1);
+		             s.checkfage();
+		             s.check();
+		}
+		catch (wrongage w)
+		{
+                 System.out.println("Caught " + w);
+    }
+   }
+}
