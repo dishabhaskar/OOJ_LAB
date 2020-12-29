@@ -1,0 +1,171 @@
+import java.util.Scanner;
+class Account
+{
+	String name,accnum,acctype;
+	 
+	double balance;
+	Account(){}
+	/*{
+		if(a==1)
+			acctype="savings";
+		else if(a==2)
+			acctype="current";
+	}*/
+
+	void input()
+	{
+		Scanner sc=new Scanner(System.in);
+
+	System.out.println("enter name ,acc number");
+	name=sc.next();   
+	accnum=sc.next();
+    
+	System.out.println("enter balance");
+	balance=sc.nextInt();
+
+
+}
+
+void displaydetails()
+		{
+		System.out.println("\nname="+name+"\naccnumber="+accnum+"\nbalance="+balance+"\naccount type="+acctype);
+		}
+void display()
+	{
+		System.out.println("balance="+balance);
+	}
+
+
+}
+
+class curracct extends Account
+{  
+    curracct()
+	{
+			acctype="current";
+	}
+		 double minbal=5000;
+
+	void check()
+	{
+		double penalty=100;
+	 if(balance<minbal)
+		{
+		 balance=balance-penalty;
+		 System.out.println("penalty is imposed");
+		 System.out.println("balance="+balance);
+
+        }
+		else 
+		{
+		  System.out.println("penalty not imposed");
+		}
+	}
+
+	void deposit()
+	{
+         Scanner sc=new Scanner(System.in);
+         System.out.println("enter amt to deposit:");
+         double amt=sc.nextDouble();
+         balance=balance+amt;
+	}
+}
+
+class savacc extends Account
+{
+  savacc()
+	{
+			acctype="savings";
+	}
+  double ci;
+  void calcompound(int n,int t)
+	{
+	  ci=balance*(Math.pow((1+(0.2/n)),(n*t)));
+	  balance=balance+ci;
+	  System.out.printf("compound interest:%.2f",ci);
+	  System.out.printf("\nbalance:%.2f",balance);
+
+
+	}
+   void withdrawal(double amt)
+    {
+		double minbal=5000;
+		if(balance<5000)
+		System.out.println("amount cant be withdrawn as min balance(5000) constraint will be violated");
+       else
+		   balance=balance-amt;
+	  
+	}
+
+	void deposit()
+	{
+	     System.out.println("enter amount to deposit: ");
+	     Scanner sc=new Scanner(System.in);
+             double depamt;
+             depamt=sc.nextDouble();
+	     balance=balance+depamt;
+	     System.out.println("balance="+balance);
+   }
+}
+class AccountMain
+{
+     public static void main(String[] args) 
+	{
+		 Scanner sc=new Scanner(System.in);
+
+		//Account A=new Account();
+		
+		 System.out.println("enter 1 for savings account 2 for current account");
+	     int acctype=sc.nextInt();
+		
+        savacc s=new savacc();
+        curracct c=new curracct();
+         if(acctype==1)
+		{
+
+		System.out.println("enter your details: ");
+		s.input();
+        s.displaydetails();
+		System.out.println("number of times interest to be compounded per unit t(n),time in years");
+
+		
+        int n=sc.nextInt();
+        int t=sc.nextInt();
+		s.calcompound(n,t);
+		
+        int n1=1;
+		while(n1==1)
+		{
+        
+        System.out.println("enter 1.deposit 2.withdrawl 3.exit");
+        int w=sc.nextInt();
+        if(w==1)
+			{
+                         s.deposit();
+			}
+        else if(w==2)
+		{
+			System.out.println("enter the amount :");
+		        double amt=sc.nextDouble();
+
+			s.withdrawal(amt);
+			s.display();
+		}
+		else
+			{
+			System.exit(0);
+			}
+		}
+		}
+       
+	   else if(acctype==2)
+		{
+               System.out.println("enter your details: ");
+        	c.input();
+		c.displaydetails();
+                c.check();
+		c.deposit();
+	        c.display();
+         }
+ }
+}
